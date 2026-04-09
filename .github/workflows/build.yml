@@ -1,13 +1,16 @@
 name: Build BinTTS Tweak
 
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-13  # 固定用 macOS 13 稳定版，避免环境问题
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3  # 用 v3 稳定版，避免 Node.js 弃用警告
         with:
           submodules: recursive
 
@@ -23,14 +26,16 @@ jobs:
 
       - name: Build Tweak
         run: |
+          # 进入项目根目录
+          cd $GITHUB_WORKSPACE
           make clean
           make package
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: BinTTS_Output
           path: |
             packages/*.deb
-            .theos/_/Library/MobileSubstrate/DynamicLibraries/BinTTS.dylib
+            .theos/obj/debug/BinTTS.dylib
             BinTTS.plist
