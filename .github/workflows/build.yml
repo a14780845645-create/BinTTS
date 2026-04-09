@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    # 用 GitHub 官方 100% 支持的 macOS 13 稳定版，绝对不踩坑
+    # 用 GitHub 官方 100% 支持的 macos-13，绝对不报错
     runs-on: macos-13
     steps:
       - name: Checkout code
